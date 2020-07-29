@@ -1,5 +1,14 @@
 import logging
 import traceback
+import sqlalchemy
+
+from sqlalchemy import sql
+from sqlalchemy import Column, MetaData
+from sqlalchemy.types import DateTime, Integer, String
+from sqlalchemy.sql import func, expression
+from sqlalchemy.sql.expression import insert
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker, relationship
 
 import transaction
 
@@ -17,8 +26,10 @@ class SQLAlchemyHandler(logging.Handler):
             logger=record.__dict__['name'],
             level=record.__dict__['levelname'],
             trace=trace,
-            msg=record.__dict__['msg'], )
+            msg=record.__dict__['msg'],)
+        #print(log.__dict__)
+
         DBSession.add(log)
         transaction.commit()
-        Base.metadata.create_all(bind=engine)
-        print("HELLO")
+
+
